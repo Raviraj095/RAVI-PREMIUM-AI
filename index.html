@@ -311,19 +311,12 @@
       let directNumber, oppositeNumber, predictionText;
 
       if (lossPending) {
-        directNumber = Math.floor(Math.random() * 4) + 6;
+        directNumber = Math.floor(Math.random() * 5) + 5;
         oppositeNumber = Math.floor(Math.random() * 5);
         predictionText = "BIG";
         lossPending = false;
         lastWasLoss = false;
         winStreakCount = 1;
-      } else if (winStreakCount >= 8 && Math.random() < 0.8) {
-        directNumber = Math.floor(Math.random() * 4);
-        oppositeNumber = Math.floor(Math.random() * 5) + 5;
-        predictionText = "SMALL";
-        lossPending = true;
-        lastWasLoss = true;
-        winStreakCount = 0;
       } else {
         directNumber = Math.floor(Math.random() * 10);
         oppositeNumber = (directNumber < 5)
@@ -331,13 +324,13 @@
           : Math.floor(Math.random() * 5);
         predictionText = (directNumber >= 5) ? "BIG" : "SMALL";
 
-        if (directNumber >= 5) {
+        if (predictionText === "BIG" && directNumber >= 5 || predictionText === "SMALL" && directNumber < 5) {
           winStreakCount++;
           lastWasLoss = false;
         } else {
-          lastWasLoss = true;
           winStreakCount = 0;
           lossPending = true;
+          lastWasLoss = true;
         }
       }
 
@@ -349,4 +342,4 @@
     }
   </script>
 </body>
-  </html>
+</html>
