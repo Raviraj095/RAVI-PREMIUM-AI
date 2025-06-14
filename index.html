@@ -3,231 +3,127 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>RAVI PAID PREDICTOR</title>
+  <title>RAVI AI BDG SMART PREDICTOR</title>
   <style>
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Segoe UI', sans-serif;
       background: #000;
       margin: 0;
       padding: 0;
-      height: 100vh;
+      color: #fff;
       display: flex;
       flex-direction: column;
       align-items: center;
-      color: #fff;
       user-select: none;
     }
-
     .header {
       width: 100%;
       background: #111;
-      color: #ccc;
       text-align: center;
       padding: 10px 0;
       font-weight: bold;
-      font-size: 18px;
       box-shadow: 0 0 10px #444;
     }
-
     .card {
-      background: rgba(255, 255, 255, 0.03);
+      background: rgba(255, 255, 255, 0.05);
       border: 1px solid #444;
       border-radius: 16px;
-      padding: 25px 30px;
+      padding: 25px;
       width: 90%;
-      max-width: 420px;
-      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
+      max-width: 400px;
       margin: 15px 0;
-      color: #ddd;
     }
-
-    h2, h3 {
-      margin-top: 0;
-      color: #fff;
-      text-align: center;
-    }
-
-    input {
+    input, button {
       width: 100%;
       padding: 12px;
-      margin: 12px 0 20px;
+      margin: 10px 0;
       border: none;
       border-radius: 10px;
       font-size: 16px;
+    }
+    input {
       background-color: #222;
       color: #eee;
-      outline: none;
-      box-shadow: inset 0 0 6px #333;
+      box-shadow: inset 0 0 5px #333;
     }
-
-    input::placeholder {
-      color: #666;
-    }
-
     button {
       background-color: #444;
       color: #fff;
-      padding: 12px;
-      width: 100%;
-      border: none;
-      border-radius: 10px;
-      font-size: 16px;
-      font-weight: bold;
       cursor: pointer;
-      transition: background-color 0.3s ease;
     }
-
-    button:hover {
-      background-color: #666;
-    }
-
     #error-message {
-      color: #f66;
+      color: red;
       text-align: center;
-      margin-top: 10px;
-      font-weight: bold;
-      min-height: 18px;
+      min-height: 20px;
     }
-
-    #main-content {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-      max-width: 900px;
-      padding: 0 10px;
-      box-sizing: border-box;
-    }
-
-    #top-container {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      width: 100%;
-      box-sizing: border-box;
-      margin-bottom: 20px;
-    }
-
-    @media (min-width: 768px) {
-      #top-container {
-        flex-direction: row;
-        justify-content: space-between;
-      }
-
-      .box {
-        width: 48%;
-      }
-    }
-
     .box {
-      background: rgba(255, 255, 255, 0.03);
+      background: rgba(255,255,255,0.05);
       border: 1px solid #555;
       border-radius: 12px;
       padding: 20px;
-      box-shadow: 0 0 8px rgba(255, 255, 255, 0.08);
-      color: #eee;
-      width: 100%;
-      box-sizing: border-box;
+      margin-bottom: 20px;
     }
-
-    .box h3 {
-      margin-bottom: 12px;
-      color: #fff;
-    }
-
     .prediction-text {
+      font-size: 22px;
       font-weight: bold;
-      font-size: 20px;
       color: #0f0;
       text-align: center;
     }
-
     .info-text {
-      font-size: 16px;
       text-align: center;
+      margin-top: 10px;
     }
-
-    #history-box {
-      width: 100%;
-    }
-
     #history-list {
       list-style: none;
-      padding-left: 12px;
-      max-height: 180px;
+      padding: 0;
+      max-height: 150px;
       overflow-y: auto;
-      color: #ccc;
-      font-size: 14px;
-      line-height: 1.4;
     }
-
     #history-list li {
-      background: rgba(255, 255, 255, 0.03);
-      margin-bottom: 6px;
-      padding: 6px 12px;
-      border-radius: 10px;
+      padding: 5px;
+      margin-bottom: 5px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
     }
-
-    .owner-tag {
-      font-size: 12px;
-      text-align: center;
-      margin-top: 8px;
-      color: #888;
-      user-select: none;
+    .feedback-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
     }
-
-    .popup {
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: #111;
-      color: #fff;
-      padding: 15px 20px;
-      border: 1px solid #333;
-      border-radius: 12px;
-      z-index: 9999;
-      text-align: center;
-      max-width: 90%;
-      font-size: 13px;
-      box-shadow: 0 0 10px #444;
-      user-select: none;
+    .feedback-buttons button {
+      flex: 1;
+      background-color: #222;
     }
   </style>
 </head>
+
 <body>
-  <div class="header">MADE BY RAVI BHAI</div>
+  <div class="header">RAVI AI BDG SMART PREDICTOR</div>
 
   <div class="card" id="login-box">
     <h2>Login</h2>
     <input type="password" id="password" placeholder="Enter Password" autocomplete="off" />
     <button onclick="login()">Login</button>
     <div id="error-message"></div>
-    <div class="owner-tag">MOD OWNER: @raviraj095 &amp; @silentxkiller_76</div>
   </div>
 
-  <div class="card" id="main-content">
-    <h2>RAVI PAID PREDICTOR</h2>
-
-    <div id="top-container">
-      <div class="box" id="prediction-box">
-        <h3>Prediction</h3>
-        <div class="prediction-text" id="prediction-result">Waiting for prediction...</div>
-      </div>
-
-      <div class="box" id="time-box">
-        <h3>Current Time & Period</h3>
-        <div class="info-text" id="time">Loading time...</div>
-        <div class="info-text" id="period-number">Loading period...</div>
+  <div class="card" id="main-content" style="display:none;">
+    <div class="box">
+      <h3>Prediction</h3>
+      <div class="prediction-text" id="prediction-result">Waiting...</div>
+      <div class="info-text" id="win-rate">Win Rate: 0%</div>
+      <div class="feedback-buttons" id="feedback" style="display:none;">
+        <button onclick="feedback(true)">✅ Win</button>
+        <button onclick="feedback(false)">❌ Loss</button>
       </div>
     </div>
 
-    <div class="box" id="history-box">
-      <h3>Prediction History</h3>
+    <div class="box">
+      <h3>History</h3>
       <ul id="history-list"></ul>
     </div>
 
-    <div class="owner-tag">MOD OWNER: @raviraj095 &amp; @silentxkiller_76</div>
+    <button onclick="generatePrediction()">🔮 Next Prediction</button>
   </div>
 
   <script>
@@ -237,108 +133,85 @@
       const inputPassword = document.getElementById("password").value.trim();
       const errorMsg = document.getElementById("error-message");
       if (inputPassword === storedPassword) {
-        errorMsg.textContent = "";
         document.getElementById("login-box").style.display = "none";
-        document.getElementById("main-content").style.display = "flex";
-        showPopup();
-        fetchCurrentGameIssue();
-        setInterval(fetchCurrentGameIssue, 60000);
+        document.getElementById("main-content").style.display = "block";
       } else {
         errorMsg.textContent = "Incorrect Password";
       }
     }
 
-    function showPopup() {
-      const popup = document.createElement('div');
-      popup.className = 'popup';
-      popup.innerHTML = `
-        Only buy for owner & his friends<br>
-        Owner: @raviraj095 & @silentxkiller_76<br>
-        Friends: aditya & prince only from these people otherwise no guarantee
-      `;
-      document.body.appendChild(popup);
-      setTimeout(() => popup.remove(), 6000);
-    }
-
-    function updateTime() {
-      const now = new Date();
-      document.getElementById('time').textContent = `Time: ${now.toLocaleTimeString()}`;
-    }
-    setInterval(updateTime, 1000);
-    updateTime();
-
+    let totalPredictions = 0;
+    let totalWins = 0;
+    let bigStreak = 0;
+    let smallStreak = 0;
+    let zigzagStreak = 0;
+    let lastPrediction = null;
+    let safeMode = 8;
+    let recoveryMode = false;
     let history = [];
-    let latestPeriod = null;
-    let winStreakCount = 0;
-    let lossPending = false;
-    let lastWasLoss = false;
-
-    async function fetchCurrentGameIssue() {
-      const apiUrl = 'https://api.bdg88zf.com/api/webapi/GetGameIssue';
-      const requestData = {
-        typeId: 1,
-        language: 0,
-        random: "40079dcba93a48769c6ee9d4d4fae23f",
-        signature: "D12108C4F57C549D82B23A91E0FA20AE",
-        timestamp: 1727792520,
-      };
-      try {
-        const response = await fetch(apiUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json;charset=UTF-8' },
-          body: JSON.stringify(requestData),
-        });
-        if (response.ok) {
-          const data = await response.json();
-          if (data.code === 0) {
-            const currentPeriod = data.data.issueNumber;
-            if (currentPeriod !== latestPeriod) {
-              latestPeriod = currentPeriod;
-              document.getElementById('period-number').textContent = `Period: ${latestPeriod}`;
-              generatePrediction();
-            }
-          }
-        }
-      } catch (error) {
-        console.error("❌ Fetch error:", error);
-      }
-    }
+    let periodNumber = 100000;
 
     function generatePrediction() {
-      const predictionElement = document.getElementById('prediction-result');
-      const historyList = document.getElementById('history-list');
+      periodNumber++;
+      let predictionText, number;
 
-      let directNumber, oppositeNumber, predictionText;
-
-      if (lossPending) {
-        directNumber = Math.floor(Math.random() * 5) + 5;
-        oppositeNumber = Math.floor(Math.random() * 5);
+      if (safeMode > 0) {
+        number = Math.floor(Math.random() * 5) + 5;
         predictionText = "BIG";
-        lossPending = false;
-        lastWasLoss = false;
-        winStreakCount = 1;
+        safeMode--;
+      } else if (recoveryMode) {
+        number = Math.floor(Math.random() * 5) + 5;
+        predictionText = "BIG";
       } else {
-        directNumber = Math.floor(Math.random() * 10);
-        oppositeNumber = (directNumber < 5)
-          ? Math.floor(Math.random() * 5) + 5
-          : Math.floor(Math.random() * 5);
-        predictionText = (directNumber >= 5) ? "BIG" : "SMALL";
-
-        if (predictionText === "BIG" && directNumber >= 5 || predictionText === "SMALL" && directNumber < 5) {
-          winStreakCount++;
-          lastWasLoss = false;
+        if (bigStreak >= 3) {
+          predictionText = "BIG";
+          number = Math.floor(Math.random() * 5) + 5;
+        } else if (smallStreak >= 3) {
+          predictionText = "SMALL";
+          number = Math.floor(Math.random() * 5);
+        } else if (zigzagStreak >= 3) {
+          predictionText = (lastPrediction === "BIG") ? "SMALL" : "BIG";
+          number = (predictionText === "BIG") ? Math.floor(Math.random() * 5) + 5 : Math.floor(Math.random() * 5);
         } else {
-          winStreakCount = 0;
-          lossPending = true;
-          lastWasLoss = true;
+          number = Math.floor(Math.random() * 10);
+          predictionText = (number >= 5) ? "BIG" : "SMALL";
         }
       }
 
-      predictionElement.innerHTML = `Prediction: ${predictionText} | Numbers: ${directNumber}, ${oppositeNumber}`;
+      lastPrediction = predictionText;
+      document.getElementById('prediction-result').innerText = `Period: ${periodNumber} | ${predictionText} (${number})`;
+      document.getElementById("feedback").style.display = "flex";
+    }
 
-      history.unshift(`Period ${latestPeriod}: ${predictionText} | ${directNumber}, ${oppositeNumber}`);
+    function feedback(win) {
+      document.getElementById("feedback").style.display = "none";
+      totalPredictions++;
+
+      if (win) {
+        totalWins++;
+        recoveryMode = false;
+        if (lastPrediction === "BIG") {
+          bigStreak++; smallStreak = 0;
+        } else {
+          smallStreak++; bigStreak = 0;
+        }
+        if (lastPrediction !== history[0]?.split(":")[1]?.trim().split(" ")[0]) {
+          zigzagStreak++;
+        } else {
+          zigzagStreak = 0;
+        }
+      } else {
+        recoveryMode = true;
+        bigStreak = 0; smallStreak = 0; zigzagStreak = 0;
+      }
+
+      const now = new Date().toLocaleTimeString();
+      history.unshift(`${now}: Period ${periodNumber} ➔ ${lastPrediction} ➔ ${win ? "Win" : "Loss"}`);
       if (history.length > 10) history.pop();
-      historyList.innerHTML = history.map(item => `<li>${item}</li>`).join('');
+      document.getElementById('history-list').innerHTML = history.map(item => `<li>${item}</li>`).join('');
+
+      const winRate = ((totalWins / totalPredictions) * 100).toFixed(1);
+      document.getElementById("win-rate").innerText = `Win Rate: ${winRate}%`;
     }
   </script>
 </body>
