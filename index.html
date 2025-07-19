@@ -9,18 +9,18 @@
       margin: 0;
       padding: 20px;
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom, #dcdcdc, #f3f3f3);
-      color: #222;
+      background: linear-gradient(to bottom, #000000, #2c2c2c);
+      color: #eee;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
 
     .container {
-      background: #ffffff;
-      border: 2px solid #ccc;
+      background: #1a1a1a;
+      border: 2px solid #444;
       border-radius: 20px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
       padding: 25px;
       width: 100%;
       max-width: 420px;
@@ -30,7 +30,7 @@
 
     h1, h2 {
       font-size: 26px;
-      color: #333;
+      color: #f1f1f1;
       margin-bottom: 20px;
     }
 
@@ -44,29 +44,29 @@
     input[type="password"] {
       padding: 14px;
       border-radius: 12px;
-      border: 1px solid #ccc;
+      border: 1px solid #666;
       font-size: 16px;
       text-align: center;
-      background: #fafafa;
-      color: #333;
+      background: #2b2b2b;
+      color: #eee;
       outline: none;
     }
 
     button {
       padding: 14px;
-      background-color: #333;
+      background-color: #555;
       color: #fff;
       font-weight: bold;
       border: none;
       border-radius: 12px;
       font-size: 16px;
       cursor: pointer;
-      box-shadow: 0 0 5px rgba(0,0,0,0.2);
+      box-shadow: 0 0 8px rgba(255,255,255,0.1);
       transition: 0.2s ease-in-out;
     }
 
     button:hover {
-      background-color: #555;
+      background-color: #777;
     }
 
     .top-boxes {
@@ -78,18 +78,18 @@
 
     .square-box {
       flex: 1;
-      background: #f5f5f5;
-      border: 2px solid #bbb;
+      background: #2a2a2a;
+      border: 2px solid #666;
       border-radius: 16px;
       padding: 16px;
       font-size: 16px;
       font-weight: bold;
-      color: #111;
+      color: #fff;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      box-shadow: 0 0 10px rgba(255,255,255,0.05);
     }
 
     .number-box {
@@ -101,19 +101,21 @@
     .number-box div {
       width: 50px;
       height: 50px;
-      background: white;
+      background: #000;
       border-radius: 12px;
       display: flex;
       justify-content: center;
       align-items: center;
-      border: 2px solid #aaa;
+      border: 2px solid #777;
       font-size: 20px;
-      box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+      color: #0f0;
+      font-weight: bold;
+      box-shadow: 0 0 6px rgba(0, 255, 0, 0.3);
     }
 
     .timer {
       font-size: 15px;
-      color: #555;
+      color: #ccc;
       font-weight: bold;
       margin-top: 10px;
     }
@@ -121,8 +123,8 @@
     .history {
       max-height: 300px;
       overflow-y: auto;
-      background: #f1f1f1;
-      border: 1px solid #ccc;
+      background: #1d1d1d;
+      border: 1px solid #555;
       padding: 12px;
       border-radius: 12px;
       width: 100%;
@@ -136,17 +138,16 @@
 
     .history-item {
       font-size: 16px;
-      color: #222;
+      color: #ddd;
       font-weight: bold;
       text-align: left;
-      border-bottom: 1px dashed #bbb;
+      border-bottom: 1px dashed #555;
       padding-bottom: 4px;
     }
   </style>
 </head>
 <body>
 
-  <!-- Login Box -->
   <div class="container" id="loginContainer">
     <h1>🔐 RAVI VIP Login</h1>
     <div class="login-box">
@@ -155,7 +156,6 @@
     </div>
   </div>
 
-  <!-- Predictor Panel -->
   <div class="container" id="predictorContainer" style="display: none;">
     <h1>🔥 RAVI VIP Predictor 🔥</h1>
     <div class="top-boxes">
@@ -173,7 +173,6 @@
     <div class="timer" id="countdown">⏳ Next update in: --s</div>
   </div>
 
-  <!-- History Panel -->
   <div class="container" id="historyContainer" style="display: none;">
     <h2>📜 Prediction History</h2>
     <div class="history">
@@ -182,12 +181,13 @@
   </div>
 
   <script>
-    const CORRECT_PASSWORD = "VIP-V4";
+    const CORRECT_PASSWORD = "R-VIP";
     let lastPeriod = null;
     let lastSignal = null;
     let winStreak = 0;
     let forceWin = false;
     let lastUpdateTime = Date.now();
+    const historyLog = [];
 
     function handleLogin() {
       const input = document.getElementById("passwordInput").value;
@@ -225,13 +225,36 @@
       return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    function generatePrediction() {
-      const small = getRandomFromRange(0, 4);
-      const big = getRandomFromRange(5, 9);
-      return { small, big };
+    function generatePrediction(signal) {
+      if (signal === "Big") {
+        return {
+          small: getRandomFromRange(0, 2),
+          big: getRandomFromRange(5, 9)
+        };
+      } else {
+        return {
+          small: getRandomFromRange(0, 4),
+          big: getRandomFromRange(5, 6)
+        };
+      }
+    }
+
+    function getNextSignal() {
+      const bigCount = historyLog.slice(-6).filter(s => s.signal === "Big").length;
+      const smallCount = historyLog.slice(-6).filter(s => s.signal === "Small").length;
+      if (forceWin) {
+        forceWin = false;
+        return lastSignal === "Big" ? "Small" : "Big";
+      }
+      if (winStreak >= 6 || Math.abs(bigCount - smallCount) > 3) {
+        forceWin = true;
+        return lastSignal === "Big" ? "Small" : "Big";
+      }
+      return Math.random() > 0.5 ? "Big" : "Small";
     }
 
     function addToHistory(period, signal, small, big) {
+      historyLog.push({ period, signal });
       const list = document.getElementById("historyList");
       const item = document.createElement("div");
       item.className = "history-item";
@@ -246,22 +269,10 @@
       lastPeriod = currentPeriod;
       lastUpdateTime = Date.now();
 
-      let signal;
-      if (forceWin) {
-        signal = lastSignal === "Big" ? "Small" : "Big";
-        forceWin = false;
-        winStreak = 1;
-      } else if (winStreak >= 5) {
-        signal = lastSignal === "Big" ? "Small" : "Big";
-        forceWin = true;
-        winStreak = 0;
-      } else {
-        signal = Math.random() > 0.5 ? "Big" : "Small";
-        winStreak++;
-      }
+      const signal = getNextSignal();
       lastSignal = signal;
 
-      const { small, big } = generatePrediction();
+      const { small, big } = generatePrediction(signal);
 
       document.getElementById("infoBox").innerHTML = `Period: ${currentPeriod}<br>Signal: ${signal}`;
       document.getElementById("numberBox").innerHTML = `
@@ -272,6 +283,7 @@
       `;
 
       addToHistory(currentPeriod, signal, small, big);
+      winStreak++;
     }
 
     function updateTimer() {
