@@ -1,67 +1,260 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Hack Alert</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: #ffffff;
-      font-family: 'Segoe UI', sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
+<meta charset="UTF-8">
+<title>Valentine Special 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    .box {
-      background: #f0fff0;
-      border: 2px solid #27ae60;
-      border-radius: 15px;
-      padding: 30px;
-      max-width: 90%;
-      box-shadow: 0 0 15px rgba(39, 174, 96, 0.4);
-      color: #2d3436;
-    }
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
 
-    h1 {
-      color: #27ae60;
-      font-size: 24px;
-      margin-bottom: 15px;
-    }
+body{
+height:100vh;
+background:linear-gradient(135deg,#ff4b6e,#ff9a9e);
+display:flex;
+justify-content:center;
+align-items:center;
+overflow:hidden;
+color:white;
+}
 
-    p {
-      font-size: 16px;
-      line-height: 1.7;
-    }
+/* Floating hearts */
+.hearts{
+position:fixed;
+width:100%;
+height:100%;
+top:0;
+left:0;
+pointer-events:none;
+overflow:hidden;
+z-index:0;
+}
+.hearts span{
+position:absolute;
+animation:float 8s linear infinite;
+opacity:.7;
+}
+@keyframes float{
+0%{transform:translateY(100vh);}
+100%{transform:translateY(-10vh);}
+}
 
-    .highlight {
-      color: #27ae60;
-      font-weight: bold;
-    }
+.page{
+display:none;
+width:95%;
+max-width:480px;
+background:rgba(255,255,255,0.15);
+backdrop-filter:blur(18px);
+border-radius:25px;
+padding:30px;
+text-align:center;
+box-shadow:0 0 40px rgba(255,0,100,0.6);
+animation:fadeIn .6s ease;
+position:relative;
+z-index:2;
+}
+.page.active{display:block;}
 
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 20px;
-      }
+input{
+width:100%;
+padding:12px;
+margin:10px 0;
+border:none;
+border-radius:12px;
+}
 
-      p {
-        font-size: 15px;
-      }
-    }
-  </style>
+button{
+padding:12px 25px;
+border:none;
+border-radius:25px;
+background:linear-gradient(135deg,#ff0844,#ffb199);
+color:white;
+cursor:pointer;
+margin:10px;
+}
+
+.btn-row{
+display:flex;
+justify-content:space-between;
+position:relative;
+height:80px;
+}
+
+#noBtn{position:absolute;right:0;}
+
+.media-box{
+width:160px;
+height:160px;
+margin:10px auto;
+border-radius:20px;
+overflow:hidden;
+}
+.media-box img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+@keyframes fadeIn{
+from{opacity:0;transform:scale(.9);}
+to{opacity:1;transform:scale(1);}
+}
+</style>
 </head>
 <body>
-  <div class="box">
-    <h1>⚠️ Hack Patched Notice</h1>
-    <p>Your hack has been <span class="highlight">patched</span> and it will <span class="highlight">no longer work</span>.</p>
-    <p>To <span class="highlight">buy the new version</span> or <span class="highlight">update this one</span>, directly contact <span class="highlight">Ravi Bhai</span>.</p>
-    <p>Type: <span class="highlight">HACK SCANNER</span>, make the payment and send the screenshot.</p>
-    <p><span class="highlight">Hack Price: ₹499 (Fixed)</span> — Do not ask for a discount or it won’t work.</p>
-    <p><span class="highlight">Don't waste your time</span>. DM anywhere (Telegram, Instagram, or others) only at:</p>
-    <p class="highlight">@raviraj095</p>
-  </div>
+
+<div class="hearts" id="hearts"></div>
+
+<!-- PAGE 1 -->
+<div class="page active" id="page1">
+<h1>💖 Valentine Special 💖</h1>
+<input type="text" id="senderName" placeholder="Your Name">
+<input type="text" id="yourName" placeholder="Partner Name">
+<button onclick="goToPage2()">Next 💕</button>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page" id="page2">
+<h2 id="valentineQuestion"></h2>
+<div class="btn-row">
+<button onclick="goToPage(3)">Yes 💖</button>
+<button id="noBtn">No 😜</button>
+</div>
+</div>
+
+<!-- Romantic Music (Already Added) -->
+<audio id="loveMusic" loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/10/19/audio_2f28f1f1c2.mp3?filename=romantic-love-story-126066.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+const gifs=[
+"https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif",
+"https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif",
+"https://media.giphy.com/media/mlvseq9yvZhba/giphy.gif",
+"https://media.giphy.com/media/3oriO6qJiXajN0TyDu/giphy.gif",
+"https://media.giphy.com/media/1BcfiGlOGXzQY/giphy.gif",
+"https://media.giphy.com/media/l4FGpP4lxGGgK5CBW/giphy.gif",
+"https://media.giphy.com/media/13borq7Zo2kulO/giphy.gif",
+"https://media.giphy.com/media/3oEduSbSGpGaRX2Vri/giphy.gif",
+"https://media.giphy.com/media/5GoVLqeAOo6PK/giphy.gif",
+"https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif",
+"https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif",
+"https://media.giphy.com/media/26BRv0ThflsHCqDrG/giphy.gif",
+"https://media.giphy.com/media/9rZaXswTGDmBG/giphy.gif",
+"https://media.giphy.com/media/3o7aD2saalBwwftBIY/giphy.gif",
+"https://media.giphy.com/media/l0HlBO7eyXzSZkJri/giphy.gif",
+"https://media.giphy.com/media/3oriNPdeu2W1aelciY/giphy.gif",
+"https://media.giphy.com/media/3oriO6qJiXajN0TyDu/giphy.gif",
+"https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif"
+];
+
+const messages=[
+"You are the most beautiful chapter of my life.",
+"My heart found its home in you.",
+"Every moment with you feels magical.",
+"You are my today and tomorrow.",
+"My world shines brighter because of you.",
+"I never knew love could feel this perfect.",
+"You are my happiest smile.",
+"With you, every second is special.",
+"You complete my heart.",
+"My favorite place is next to you.",
+"You are my dream come true.",
+"My heart beats only for you.",
+"You make life extraordinary.",
+"I want forever with you.",
+"You are my always.",
+"My soul feels peaceful with you.",
+"I fall for you daily.",
+"You are my best decision."
+];
+
+let yourName="";
+
+function goToPage2(){
+yourName=document.getElementById("yourName").value.trim();
+if(!yourName){
+alert("Enter Partner Name ❤️");
+return;
+}
+document.getElementById("page1").classList.remove("active");
+document.getElementById("page2").classList.add("active");
+document.getElementById("valentineQuestion").innerText=
+`Will you be my Valentine, ${yourName}? 💖`;
+}
+
+function goToPage(n){
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+document.getElementById("page"+n).classList.add("active");
+
+if(n===3){
+document.getElementById("loveMusic").play().catch(()=>{});
+}
+}
+
+/* Create Love Pages */
+for(let i=0;i<18;i++){
+let div=document.createElement("div");
+div.className="page";
+div.id="page"+(i+3);
+div.innerHTML=`
+<h2>You Are My Love 💖</h2>
+<div class="media-box">
+<img src="${gifs[i]}">
+</div>
+<p id="msg${i}"></p>
+<button onclick="goToPage(${i+4})">${i===17?"Final 💞":"Next 💕"}</button>
+`;
+document.body.appendChild(div);
+}
+
+/* Sameer Special Page */
+let finalPage=document.createElement("div");
+finalPage.className="page";
+finalPage.id="page21";
+finalPage.innerHTML=`
+<h2>Special Message 💝</h2>
+<div class="media-box">
+<img src="https://media.giphy.com/media/l4FGpP4lxGGgK5CBW/giphy.gif">
+</div>
+<p>
+Specially for my brother Sameer ❤️<br><br>
+Thanks for visiting this Valentine Special page 💖
+</p>
+`;
+document.body.appendChild(finalPage);
+
+/* Insert Name Properly After Click */
+document.addEventListener("click",function(){
+for(let i=0;i<18;i++){
+let msg=document.getElementById("msg"+i);
+if(msg){
+msg.innerText=messages[i]+" ❤️ — "+yourName;
+}
+}
+});
+
+/* Floating hearts */
+const hearts=document.getElementById("hearts");
+for(let i=0;i<25;i++){
+let span=document.createElement("span");
+span.innerText="💖";
+span.style.left=Math.random()*100+"%";
+span.style.animationDuration=(5+Math.random()*5)+"s";
+span.style.fontSize=(15+Math.random()*25)+"px";
+hearts.appendChild(span);
+}
+
+/* Moving No button */
+const noBtn=document.getElementById("noBtn");
+noBtn.addEventListener("mouseover",()=>{
+noBtn.style.left=Math.random()*200+"px";
+noBtn.style.top=Math.random()*60+"px";
+});
+
+</script>
+
 </body>
 </html>
